@@ -12,6 +12,8 @@ Source0:        zot
 Source1:        zot.service
 Source2:        config.json
 Source3:        credentials.json
+Source4:        generate_certs.sh
+Source5:        hosts.txt
 
 BuildArch:      x86_64
 
@@ -34,6 +36,10 @@ install -d -m 0755 %{buildroot}/etc/zot
 install -m 0644 %{SOURCE2} %{buildroot}/etc/zot/config.json
 install -m 0600 %{SOURCE3} %{buildroot}/etc/zot/credentials.json
 
+install -d -m 0755 %{buildroot}/etc/zot/certs
+install -m 0755 %{SOURCE4} %{buildroot}/etc/zot/certs/generate_certs.sh
+install -m 0644 %{SOURCE5} %{buildroot}/etc/zot/certs/hosts.txt
+
 install -d -m 0755 %{buildroot}/var/lib/zot
 
 %files
@@ -42,6 +48,9 @@ install -d -m 0755 %{buildroot}/var/lib/zot
 %dir /etc/zot
 %config(noreplace) /etc/zot/config.json
 %config(noreplace) /etc/zot/credentials.json
+%dir /etc/zot/certs
+/etc/zot/certs/generate_certs.sh
+%config(noreplace) /etc/zot/certs/hosts.txt
 %dir /var/lib/zot
 
 %pre
