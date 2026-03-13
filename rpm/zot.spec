@@ -6,7 +6,8 @@ Version:        %{zot_version}
 Release:        1%{?dist}
 Summary:        OCI Distribution Specification compliant container image registry
 License:        Apache-2.0
-URL:            https://github.com/project-zot/zot
+URL:            https://github.com/TheOpenCloudEngine/zot-registry-service
+Packager:       Open Cloud Engine Community
 
 Source0:        zot
 Source1:        zot.service
