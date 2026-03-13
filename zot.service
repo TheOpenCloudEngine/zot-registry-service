@@ -1,0 +1,12 @@
+[Unit]
+Description=Zot OCI Registry
+After=network.target
+
+[Service]
+User=root
+WorkingDirectory=/var/lib/zot
+ExecStart=/usr/local/bin/zot serve /etc/zot/config.json
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
