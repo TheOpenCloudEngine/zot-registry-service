@@ -1,1 +1,1 @@
-zot-registry
+dev-server
