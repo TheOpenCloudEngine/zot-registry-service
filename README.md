@@ -466,3 +466,28 @@ docker pull dev-server.dev.net:5000/argoproj/argocd:v2.10.0
 # Helm Chart (OCI)
 helm pull oci://dev-server.dev.net:5000/bitnamicharts/redis --version 21.0.2 # 버전 명시
 ```
+
+## 기타
+
+### OCI 형식이 아닌 Helm Charts
+
+OCI 형식이 아닌 Helm Charts는 다음과 같이 처리합니다.
+
+```
+# Apache Airflow Helm repo 추가
+helm repo add apache-airflow https://airflow.apache.org
+helm repo update
+
+# chart 다운로드
+helm pull apache-airflow/airflow --version 1.19.0
+
+# zot 로그인 (인증이 있는 경우)
+helm registry login dev-server.dev.net:5000
+
+# OCI 형식으로 zot에 push
+helm push airflow-1.19.0.tgz oci://dev-server.dev.net:5000/apache-airflow
+
+# 이후 사용
+helm pull oci://dev-server.dev.net:5000/apache-airflow/airflow --version 1.19.0
+helm install my-airflow oci://dev-server.dev.net:5000/apache-airflow/airflow --version 1.19.0
+```
