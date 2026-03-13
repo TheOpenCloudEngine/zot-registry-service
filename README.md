@@ -336,7 +336,6 @@ sh generate_certs.sh
 Helm Charts를 가져오기 위해서 다음과 같이 `/etc/zot/credentials.json` 파일에 Docker Hub의 인증키를 추가합니다. Key는 Docker Hub 사이트에 로그인 하여 
 
 ```
-cat 
 {
   "registry-1.docker.io": {
     "username": "USERNAME",
