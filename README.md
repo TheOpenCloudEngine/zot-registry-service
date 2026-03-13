@@ -527,3 +527,12 @@ for img in $IMAGES; do
   docker pull "${ZOT}/${local_img}" || echo "FAILED: ${local_img}"
 done
 ```
+
+실제 사용시 다음의 커맨드를 사용합니다.
+
+```
+helm install my-airflow oci://dev-server.dev.net:5000/apache-airflow/airflow \
+  --version 1.19.0 \
+  --set defaultAirflowRepository=dev-server.dev.net:5000/apache/airflow \
+  --set defaultAirflowTag=3.1.7
+```
