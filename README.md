@@ -1,4 +1,4 @@
-# Portable Zot Service
+# Portable Docker Registry (Zot)
 
 ## Installation
 
