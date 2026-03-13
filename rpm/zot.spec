@@ -1,5 +1,6 @@
 %define _bindir /usr/local/bin
 %define _unitdir /usr/lib/systemd/system
+%define _build_id_links none
 
 Name:           zot
 Version:        %{zot_version}
