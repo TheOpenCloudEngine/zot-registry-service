@@ -495,7 +495,8 @@ helm pull apache-airflow/airflow --version 1.19.0
 # zot 로그인 (인증이 있는 경우)
 helm registry login dev-server.dev.net:5000
 
-# OCI 형식으로 zot에 push
+# OCI 형식으로 zot에 push (로그인)
+helm registry login dev-server.dev.net:5000 --username admin --password your-password
 helm push airflow-1.19.0.tgz oci://dev-server.dev.net:5000/apache-airflow
 
 # 이후 사용
