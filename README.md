@@ -333,6 +333,19 @@ sh generate_certs.sh
 
 ## Configuration
 
+Helm Charts를 가져오기 위해서 다음과 같이 `/etc/zot/credentials.json` 파일에 Docker Hub의 인증키를 추가합니다. Key는 Docker Hub 사이트에 로그인 하여 
+
+```
+cat 
+{
+  "registry-1.docker.io": {
+    "username": "USERNAME",
+    "password": "KEY"
+  }
+}
+
+```
+
 다음과 같이 `/etc/zot/config.json` 파일을 작성합니다. 5000 포트는 Coder가 사용하므로 포트 충돌이 나지 않도록 확인하도록 합니다.
 
 ```json
@@ -356,6 +369,7 @@ sh generate_certs.sh
   "extensions": {
     "sync": {
       "enable": true,
+      "credentialsFile": "/etc/zot/credentials.json",
       "registries": [
         {
           "urls": ["https://registry-1.docker.io"],
@@ -450,5 +464,5 @@ docker pull dev-server.dev.net:5000/bitnami/postgresql:17
 docker pull dev-server.dev.net:5000/argoproj/argocd:v2.10.0
 
 # Helm Chart (OCI)
-helm pull oci://dev-server.dev.net:5000/bitnamicharts/postgresql --version 16.0.0
+helm pull oci://dev-server.dev.net:5000/bitnamicharts/redis --version 21.0.2 # 버전 명시
 ```
