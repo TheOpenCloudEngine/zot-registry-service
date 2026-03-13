@@ -432,7 +432,8 @@ Description=Zot OCI Registry
 After=network.target
 
 [Service]
-User=root
+User=zot
+Group=zot
 WorkingDirectory=/var/lib/zot
 ExecStart=/usr/local/bin/zot serve /etc/zot/config.json
 Restart=always
