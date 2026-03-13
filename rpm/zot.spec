@@ -65,7 +65,21 @@ if [ $1 -eq 1 ] && command -v systemctl >/dev/null 2>&1; then
     systemctl daemon-reload >/dev/null 2>&1 || :
     systemctl enable zot.service >/dev/null 2>&1 || :
 fi
-echo "Zot registry installed. Edit /etc/zot/config.json and start with: systemctl start zot"
+echo ""
+echo "================================================================="
+echo " Zot Registry 설치가 완료되었습니다."
+echo "================================================================="
+echo ""
+echo " 1. Zot을 실행할 서버의 호스트명을 /etc/zot/certs/hosts.txt 파일에 추가하십시오."
+echo ""
+echo " 2. /etc/zot/certs/generate_certs.sh 스크립트를 실행하여 인증서를 생성하십시오."
+echo ""
+echo " 3. /etc/zot/config.json 파일에 인증서의 경로를 변경하십시오."
+echo ""
+echo " 4. /etc/zot/credentials.json 파일에 Zot에 push를 위한 username, password를 지정하십시오."
+echo ""
+echo " 설정 완료 후: systemctl start zot"
+echo "================================================================="
 
 %preun
 if [ $1 -eq 0 ] && command -v systemctl >/dev/null 2>&1; then
