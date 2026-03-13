@@ -520,9 +520,15 @@ echo "$IMAGES"
 echo ""
 echo "=== zot으로 pull 시작 ==="
 for img in $IMAGES; do
-  # 원본 registry 주소를 zot 주소로 변환
-  # docker.io/apache/airflow:3.1.7 -> dev-server.dev.net:5000/apache/airflow:3.1.7
-  local_img=$(echo "$img" | sed 's|^docker.io/||; s|^registry-1.docker.io/||')
+  # 모든 원본 registry 주소 제거
+  local_img=$(echo "$img" | sed \
+    -e 's|^docker.io/||' \
+    -e 's|^registry-1.docker.io/||' \
+    -e 's|^quay.io/||' \
+    -e 's|^gcr.io/||' \
+    -e 's|^ghcr.io/||' \
+    -e 's|^mcr.microsoft.com/||')
+
   echo "Pulling: ${ZOT}/${local_img}"
   docker pull "${ZOT}/${local_img}" || echo "FAILED: ${local_img}"
 done
