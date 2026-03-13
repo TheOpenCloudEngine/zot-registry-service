@@ -1,4 +1,5 @@
 %define _bindir /usr/local/bin
+%define _unitdir /usr/lib/systemd/system
 
 Name:           zot
 Version:        %{zot_version}
@@ -49,13 +50,22 @@ getent passwd zot >/dev/null || useradd -r -g zot -d /var/lib/zot -s /sbin/nolog
 exit 0
 
 %post
-%systemd_post zot.service
+if [ $1 -eq 1 ] && command -v systemctl >/dev/null 2>&1; then
+    systemctl daemon-reload >/dev/null 2>&1 || :
+    systemctl enable zot.service >/dev/null 2>&1 || :
+fi
 echo "Zot registry installed. Edit /etc/zot/config.json and start with: systemctl start zot"
 
 %preun
-%systemd_preun zot.service
+if [ $1 -eq 0 ] && command -v systemctl >/dev/null 2>&1; then
+    systemctl stop zot.service >/dev/null 2>&1 || :
+    systemctl disable zot.service >/dev/null 2>&1 || :
+fi
 
 %postun
-%systemd_postun_with_restart zot.service
+if [ $1 -ge 1 ] && command -v systemctl >/dev/null 2>&1; then
+    systemctl daemon-reload >/dev/null 2>&1 || :
+    systemctl try-restart zot.service >/dev/null 2>&1 || :
+fi
 
 %changelog
