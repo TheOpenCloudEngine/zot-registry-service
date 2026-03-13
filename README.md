@@ -343,7 +343,13 @@ cat
     "password": "KEY"
   }
 }
+```
 
+OCI 형식이 아닌 Helm Charts를 push하기 위해서 다음과 같이 인증 정보를 생성합니다.
+
+```
+apt install apache2-utils  # 또는 yum install httpd-tools
+htpasswd -bBc /etc/zot/htpasswd admin your-password
 ```
 
 다음과 같이 `/etc/zot/config.json` 파일을 작성합니다. 5000 포트는 Coder가 사용하므로 포트 충돌이 나지 않도록 확인하도록 합니다.
@@ -361,6 +367,11 @@ cat
     "tls": {
       "cert": "/etc/zot/certs/dev-server/dev-server.crt",
       "key": "/etc/zot/certs/dev-server/dev-server.key"
+    },
+    "auth": {
+      "htpasswd": {
+        "path": "/etc/zot/htpasswd"
+      }
     }
   },
   "log": {
