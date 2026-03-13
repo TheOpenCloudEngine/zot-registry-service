@@ -503,3 +503,27 @@ helm push airflow-1.19.0.tgz oci://dev-server.dev.net:5000/apache-airflow
 helm pull oci://dev-server.dev.net:5000/apache-airflow/airflow --version 1.19.0
 helm install my-airflow oci://dev-server.dev.net:5000/apache-airflow/airflow --version 1.19.0
 ```
+
+Helm Charts를 업로드한 후에 다음의 스크립트로 일괄 이미지를 Zot에 업로드할 수 있습니다.
+
+```shell
+#!/bin/bash
+ZOT="dev-server.dev.net:5000"
+
+# chart에서 이미지 목록 추출
+IMAGES=$(helm template my-airflow oci://${ZOT}/apache-airflow/airflow --version 1.19.0 \
+  | grep "image:" | sed 's/.*image: *"*\([^"]*\)"*/\1/' | sort -u)
+
+echo "=== 발견된 이미지 ==="
+echo "$IMAGES"
+
+echo ""
+echo "=== zot으로 pull 시작 ==="
+for img in $IMAGES; do
+  # 원본 registry 주소를 zot 주소로 변환
+  # docker.io/apache/airflow:3.1.7 -> dev-server.dev.net:5000/apache/airflow:3.1.7
+  local_img=$(echo "$img" | sed 's|^docker.io/||; s|^registry-1.docker.io/||')
+  echo "Pulling: ${ZOT}/${local_img}"
+  docker pull "${ZOT}/${local_img}" || echo "FAILED: ${local_img}"
+done
+```
