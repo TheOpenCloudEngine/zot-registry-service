@@ -2,7 +2,7 @@
 
 ## Installation
 
-```
+```shell
 # 최신 버전 확인 후 다운로드 (x86_64 기준)
 curl -Lo zot https://github.com/project-zot/zot/releases/latest/download/zot-linux-amd64
 
@@ -13,7 +13,7 @@ sudo mv zot /usr/local/bin/zot
 
 ## Configuration
 
-다음과 같이 `/etc/zot/config.json` 파일을 작성합니다.
+다음과 같이 `/etc/zot/config.json` 파일을 작성합니다. 5000 포트는 Coder가 사용하므로 포트 충돌이 나지 않도록 확인하도록 합니다.
 
 ```json
 {
@@ -37,42 +37,42 @@ sudo mv zot /usr/local/bin/zot
           "urls": ["https://registry-1.docker.io"],
           "onDemand": true,
           "content": [
-            { "source": "library/*", "destination": "/library/*" },
-            { "source": "bitnami/*", "destination": "/bitnami/*" },
-            { "source": "bitnamicharts/*", "destination": "/bitnamicharts/*" }
+            { "prefix": "library/*", "destination": "/library/*" },
+            { "prefix": "bitnami/*", "destination": "/bitnami/*" },
+            { "prefix": "bitnamicharts/*", "destination": "/bitnamicharts/*" }
           ]
         },
         {
           "urls": ["https://quay.io"],
           "onDemand": true,
           "content": [
-            { "source": "prometheus/*", "destination": "/prometheus/*" },
-            { "source": "grafana/*", "destination": "/grafana/*" },
-            { "source": "coreos/*", "destination": "/coreos/*" }
+            { "prefix": "prometheus/*", "destination": "/prometheus/*" },
+            { "prefix": "grafana/*", "destination": "/grafana/*" },
+            { "prefix": "coreos/*", "destination": "/coreos/*" }
           ]
         },
         {
           "urls": ["https://gcr.io"],
           "onDemand": true,
           "content": [
-            { "source": "google-containers/*", "destination": "/google-containers/*" },
-            { "source": "kaniko-project/*", "destination": "/kaniko-project/*" }
+            { "prefix": "google-containers/*", "destination": "/google-containers/*" },
+            { "prefix": "kaniko-project/*", "destination": "/kaniko-project/*" }
           ]
         },
         {
           "urls": ["https://ghcr.io"],
           "onDemand": true,
           "content": [
-            { "source": "argoproj/*", "destination": "/argoproj/*" },
-            { "source": "external-secrets/*", "destination": "/external-secrets/*" },
-            { "source": "cert-manager/*", "destination": "/cert-manager/*" }
+            { "prefix": "argoproj/*", "destination": "/argoproj/*" },
+            { "prefix": "external-secrets/*", "destination": "/external-secrets/*" },
+            { "prefix": "cert-manager/*", "destination": "/cert-manager/*" }
           ]
         },
         {
           "urls": ["https://mcr.microsoft.com"],
           "onDemand": true,
           "content": [
-            { "source": "oss/kubernetes/*", "destination": "/oss/kubernetes/*" }
+            { "prefix": "oss/kubernetes/*", "destination": "/oss/kubernetes/*" }
           ]
         }
       ]
@@ -100,13 +100,19 @@ Restart=always
 WantedBy=multi-user.target
 ```
 
+에러 발생시 다음의 커맨드로 체크합니다.
+
+```shell
+journalctl -u zot.service -n 20 --no-pager
+```
+
 ## Use
 
 ### Docker 설정
 
 `/etc/docker/daemon.json` 파일에 다음과 같이 추가합니다.
 
-```
+```json
 {
   "insecure-registries": ["<ZOT_IP>:5000"]
 }
@@ -114,19 +120,19 @@ WantedBy=multi-user.target
 
 ### Helm Chart의 `values.yaml`
 
-```
+```yaml
 repository: <ZOT_IP>:5000/bitnami/postgresql
 ```
 
 ### OCI 방식의 Helm Chart 호출
 
-```
+```shell
 helm pull oci://<ZOT_IP>:5000/bitnamicharts/postgresql
 ```
 
 ### Warming Up
 
-```
+```shell
 # Docker Hub 공식 이미지
 docker pull <ZOT_IP>:5000/library/nginx:latest
 
