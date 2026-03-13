@@ -24,7 +24,11 @@ sudo mv zot /usr/local/bin/zot
   },
   "http": {
     "address": "0.0.0.0",
-    "port": "5000"
+    "port": "5000",
+    "tls": {
+      "cert": "/etc/zot/certs/dev-server/dev-server.crt",
+      "key": "/etc/zot/certs/dev-server/dev-server.key"
+    }
   },
   "log": {
     "level": "info"
@@ -37,42 +41,35 @@ sudo mv zot /usr/local/bin/zot
           "urls": ["https://registry-1.docker.io"],
           "onDemand": true,
           "content": [
-            { "prefix": "library/*", "destination": "/library/*" },
-            { "prefix": "bitnami/*", "destination": "/bitnami/*" },
-            { "prefix": "bitnamicharts/*", "destination": "/bitnamicharts/*" }
+            { "prefix": "**" }
           ]
         },
         {
           "urls": ["https://quay.io"],
           "onDemand": true,
           "content": [
-            { "prefix": "prometheus/*", "destination": "/prometheus/*" },
-            { "prefix": "grafana/*", "destination": "/grafana/*" },
-            { "prefix": "coreos/*", "destination": "/coreos/*" }
+            { "prefix": "**" }
           ]
         },
         {
           "urls": ["https://gcr.io"],
           "onDemand": true,
           "content": [
-            { "prefix": "google-containers/*", "destination": "/google-containers/*" },
-            { "prefix": "kaniko-project/*", "destination": "/kaniko-project/*" }
+            { "prefix": "**" }
           ]
         },
         {
           "urls": ["https://ghcr.io"],
           "onDemand": true,
           "content": [
-            { "prefix": "argoproj/*", "destination": "/argoproj/*" },
-            { "prefix": "external-secrets/*", "destination": "/external-secrets/*" },
-            { "prefix": "cert-manager/*", "destination": "/cert-manager/*" }
+            { "prefix": "**" }
           ]
         },
         {
           "urls": ["https://mcr.microsoft.com"],
           "onDemand": true,
           "content": [
-            { "prefix": "oss/kubernetes/*", "destination": "/oss/kubernetes/*" }
+            { "prefix": "**" }
           ]
         }
       ]
