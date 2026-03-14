@@ -5,6 +5,13 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
 
 # ---------------------------------------------------------
+# 0. Clean previous build artifacts
+# ---------------------------------------------------------
+echo ">>> Cleaning previous build artifacts..."
+rm -rf "${SCRIPT_DIR}/rpmbuild"
+rm -f "${SCRIPT_DIR}/zot"
+
+# ---------------------------------------------------------
 # 1. Download zot binary
 # ---------------------------------------------------------
 echo ">>> Downloading zot binary..."
@@ -35,6 +42,7 @@ cp "${ZOT_BIN}"                       "${RPMBUILD_DIR}/SOURCES/zot"
 cp "${PROJECT_DIR}/zot.service"       "${RPMBUILD_DIR}/SOURCES/zot.service"
 cp "${PROJECT_DIR}/config.json"       "${RPMBUILD_DIR}/SOURCES/config.json"
 cp "${PROJECT_DIR}/credentials.json"  "${RPMBUILD_DIR}/SOURCES/credentials.json"
+cp "${PROJECT_DIR}/htpasswd"          "${RPMBUILD_DIR}/SOURCES/htpasswd"
 cp "${PROJECT_DIR}/generate_certs.sh" "${RPMBUILD_DIR}/SOURCES/generate_certs.sh"
 cp "${PROJECT_DIR}/hosts.txt"         "${RPMBUILD_DIR}/SOURCES/hosts.txt"
 cp "${SCRIPT_DIR}/zot.spec"           "${RPMBUILD_DIR}/SPECS/zot.spec"
@@ -60,3 +68,10 @@ else
     echo "ERROR: RPM file not found" >&2
     exit 1
 fi
+
+# ---------------------------------------------------------
+# 6. Show package file list
+# ---------------------------------------------------------
+echo ""
+echo ">>> Package file list:"
+rpm -qpl "${SCRIPT_DIR}/$(basename "${RPM_FILE}")"
