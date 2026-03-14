@@ -61,3 +61,10 @@ else
     echo "ERROR: RPM file not found" >&2
     exit 1
 fi
+
+# ---------------------------------------------------------
+# 6. Show package file list
+# ---------------------------------------------------------
+echo ""
+echo ">>> Package file list:"
+rpm -qpl "${SCRIPT_DIR}/$(basename "${RPM_FILE}")"
