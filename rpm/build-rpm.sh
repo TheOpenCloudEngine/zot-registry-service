@@ -5,6 +5,13 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
 
 # ---------------------------------------------------------
+# 0. Clean previous build artifacts
+# ---------------------------------------------------------
+echo ">>> Cleaning previous build artifacts..."
+rm -rf "${SCRIPT_DIR}/rpmbuild"
+rm -f "${SCRIPT_DIR}/zot"
+
+# ---------------------------------------------------------
 # 1. Download zot binary
 # ---------------------------------------------------------
 echo ">>> Downloading zot binary..."
